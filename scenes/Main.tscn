@@ -19,5 +19,6 @@ scale = Vector2( 0.270657, 0.270657 )
 position = Vector2( 360, 360 )
 scale = Vector2( 0.5, 0.5 )
 
+[connection signal="killed" from="Sprite2" to="." method="_on_Sprite2_killed"]
 [connection signal="selected" from="Sprite2" to="." method="_on_Sprite2_selected"]
 [connection signal="card_selected" from="Node2D" to="." method="_on_Node2D_card_selected"]

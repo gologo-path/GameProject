@@ -1,6 +1,6 @@
 extends Sprite
 
-var id = '1'
+var id = '1000'
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
