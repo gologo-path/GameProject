@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/Enemy.gd" type="Script" id=2]
 
 [node name="Sprite" type="Sprite"]
-position = Vector2( 736.805, 208.592 )
 scale = Vector2( 0.395179, 0.395179 )
 texture = ExtResource( 1 )
+centered = false
 script = ExtResource( 2 )
