@@ -16,6 +16,8 @@ position = Vector2( 705.026, 195.34 )
 scale = Vector2( 0.270657, 0.270657 )
 
 [node name="Node2D" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0.748108, 4.69638 )
+position = Vector2( 360, 360 )
+scale = Vector2( 0.5, 0.5 )
 
-[connection signal="clicked" from="Sprite2" to="." method="_on_Sprite2_clicked"]
+[connection signal="selected" from="Sprite2" to="." method="_on_Sprite2_selected"]
+[connection signal="card_selected" from="Node2D" to="." method="_on_Node2D_card_selected"]
