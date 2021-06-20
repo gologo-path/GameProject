@@ -18,7 +18,7 @@ func get_damage(damage):
 	helth -= damage
 	if helth <= 0:
 		emit_signal("killed",get_index())
-		# TODO destoy self
+		get_parent().remove_child(self)
 
 func selected():
 	emit_signal("selected",get_index())
