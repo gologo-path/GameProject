@@ -11,12 +11,14 @@ script = ExtResource( 4 )
 [node name="Sprite" parent="." instance=ExtResource( 1 )]
 position = Vector2( 120, 160 )
 
-[node name="Node2D" parent="." instance=ExtResource( 3 )]
+[node name="Cards" parent="." instance=ExtResource( 3 )]
 position = Vector2( 360, 360 )
 scale = Vector2( 0.5, 0.5 )
 
-[node name="Node2D2" parent="." instance=ExtResource( 2 )]
+[node name="Enemy" parent="." instance=ExtResource( 2 )]
 position = Vector2( 675, 100 )
 scale = Vector2( 0.5, 0.5 )
 
-[connection signal="card_selected" from="Node2D" to="." method="_on_Node2D_card_selected"]
+[connection signal="card_selected" from="Cards" to="." method="_on_Node2D_card_selected"]
+[connection signal="killed" from="Enemy" to="." method="_on_Enemy_killed"]
+[connection signal="selected" from="Enemy" to="." method="_on_Enemy_selected"]

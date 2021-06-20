@@ -13,11 +13,11 @@ func _on_Node2D_card_selected(id):
 	print(card_id)
 
 
-func _on_Sprite2_selected(index):
+
+func _on_Enemy_selected(index):
 	if card_id != "":
-		if card_id[0] == "1":
-			get_child(index).get_damage(3)
+		get_child(index).get_damage(3)
 
 
-func _on_Sprite2_killed(index):
-	print("win")
+func _on_Enemy_killed(index):
+	print("Enemy %d killed" % index)
