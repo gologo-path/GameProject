@@ -8,6 +8,7 @@ func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
 		if get_rect().has_point(to_local(event.position)):
 			get_parent().get_parent().card_selected(card)
+			card.set_child_index(get_parent().get_index())
 
 func _ready():
-	card.init(enum_types.ATTACK,3)
+	card.init(enum_types.DEFENS,3)
