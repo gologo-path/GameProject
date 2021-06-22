@@ -2,6 +2,9 @@ extends Node2D
 
 var enemy_selected = false # stub, change at enemy_id later
 var card = null
+var used = false # bool flag to save state of selected card, if true then card removed from hand and flag turned to false
+const enum_types = preload("res://scripts/TypeCardEnum.gd").TypeCard
+
 
 func _ready():
 	pass 
@@ -12,8 +15,17 @@ func _on_Node2D_card_selected(card):
 
 func _on_Enemy_selected(index):
 	if card != null:
-		# TODO switch by ENUM
-		get_child(index).get_damage(3)
+		match self.card.get_type:
+			enum_types.ATTACK:
+				get_child(index).get_damage(self.card.get_damage())
+				used = true
+			enum_types.DEFENS:
+				
+	
+	if used:
+		get_node("Cards").destroy_card(card.get_child_index())
+		card = null
+		used = false
 
 
 func _on_Enemy_killed(index):

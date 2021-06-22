@@ -6,7 +6,7 @@
 [ext_resource path="res://scripts/EnemyScene.gd" type="Script" id=4]
 [ext_resource path="res://scripts/HPBar.gd" type="Script" id=5]
 
-[node name="Node2D" type="Node2D"]
+[node name="Enemy" type="Node2D"]
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -16,7 +16,7 @@ texture = ExtResource( 1 )
 centered = false
 script = ExtResource( 2 )
 
-[node name="Node2D" parent="." instance=ExtResource( 3 )]
+[node name="HPBar" parent="." instance=ExtResource( 3 )]
 position = Vector2( 50, 150 )
 scale = Vector2( 1.5, 1.5 )
 script = ExtResource( 5 )
