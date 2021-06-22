@@ -30,3 +30,4 @@ func _on_Enemy_selected(index):
 
 func _on_Enemy_killed(index):
 	print("Enemy %d killed" % index)
+
