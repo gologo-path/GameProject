@@ -28,14 +28,9 @@ func _on_Node2D_card_selected(card):
 
 func _on_Enemy_selected(index):
 	if card != null:
-		match self.card.get_type():
-			enum_types.ATTACK:
-				get_child(index).get_damage(self.card.get_damage())
-				used = true
-			enum_types.DEFENS:
-				self.get_damage(self.card.get_damage())
-				used = true
-	
+		if self.card.get_type() == enum_types.ATTACK:
+			get_child(index).get_damage(self.card.get_damage())
+			used = true
 	if used:
 		get_node("Cards").destroy_card(card.get_child_index())
 		card = null
@@ -45,3 +40,16 @@ func _on_Enemy_selected(index):
 func _on_Enemy_killed(index):
 	print("Enemy %d killed" % index)
 
+
+
+func _on_ClickArea_clicked_in_area():
+	if self.card != null:
+		match self.card.get_type():
+			enum_types.DEFENS:
+				self.get_damage(card.get_damage())
+			enum_types.ALL:
+				self.get_damage(card.get_damage())
+				get_tree().call_group("all_enemies","get_damage",self.card.get_damage())	
+			enum_types.ALL_ENEMIES:
+				get_tree().call_group("all_enemies","get_damage",self.card.get_damage())
+				

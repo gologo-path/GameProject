@@ -1,28 +1,41 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Enemy.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Cards.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=4]
 [ext_resource path="res://scenes/HPBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://icon.png" type="Texture" id=6]
+[ext_resource path="res://scripts/ClickArea.gd" type="Script" id=7]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 4 )
 
 [node name="Sprite" parent="." instance=ExtResource( 1 )]
-position = Vector2( 120, 160 )
+position = Vector2( 87.242, 206.617 )
 
 [node name="Cards" parent="." instance=ExtResource( 3 )]
-position = Vector2( 360, 360 )
+position = Vector2( 366, 462 )
 scale = Vector2( 0.5, 0.5 )
 
-[node name="Enemy" parent="." instance=ExtResource( 2 )]
-position = Vector2( 675, 100 )
+[node name="Enemy" parent="." groups=[
+"all_enemies",
+] instance=ExtResource( 2 )]
+position = Vector2( 681.3, 136.538 )
 scale = Vector2( 0.5, 0.5 )
 
 [node name="Node2D" parent="." instance=ExtResource( 5 )]
 position = Vector2( 6.11037, 8.31797 )
 
+[node name="ClickArea" type="Sprite" parent="."]
+visible = false
+position = Vector2( 113.369, 139.185 )
+scale = Vector2( 9.12031, 4.45508 )
+texture = ExtResource( 6 )
+centered = false
+script = ExtResource( 7 )
+
 [connection signal="card_selected" from="Cards" to="." method="_on_Node2D_card_selected"]
 [connection signal="killed" from="Enemy" to="." method="_on_Enemy_killed"]
 [connection signal="selected" from="Enemy" to="." method="_on_Enemy_selected"]
+[connection signal="clicked_in_area" from="ClickArea" to="." method="_on_ClickArea_clicked_in_area"]
