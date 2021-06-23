@@ -47,9 +47,16 @@ func _on_ClickArea_clicked_in_area():
 		match self.card.get_type():
 			enum_types.DEFENS:
 				self.get_damage(card.get_damage())
+				used = true
 			enum_types.ALL:
 				self.get_damage(card.get_damage())
+				used = true
 				get_tree().call_group("all_enemies","get_damage",self.card.get_damage())	
 			enum_types.ALL_ENEMIES:
+				used = true
 				get_tree().call_group("all_enemies","get_damage",self.card.get_damage())
-				
+		
+		if used:
+			get_node("Cards").destroy_card(card.get_child_index())
+			card = null
+			used = false
