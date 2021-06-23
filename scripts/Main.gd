@@ -16,7 +16,11 @@ func get_current_helth():
 func get_damage(damage):
 	helth -= damage
 	print ("geted %d damage" % damage)
+	$Sprite.texture = load("res://assets/animations/Player/Damaged.png")
+	$Timer.start()
 	if helth <= 0:
+		$Sprite.texture = load("res://assets/animations/Player/Dead.png")
+		$Timer.stop()
 		print("killed")
 
 func _ready():
@@ -32,6 +36,8 @@ func _on_Enemy_selected(index):
 			get_child(index).get_damage(self.card.get_damage())
 			used = true
 	if used:
+		$Sprite.texture = load("res://assets/animations/Player/Attack.png")
+		$Timer.start()
 		get_node("Cards").destroy_card(card.get_child_index())
 		card = null
 		used = false
@@ -60,3 +66,8 @@ func _on_ClickArea_clicked_in_area():
 			get_node("Cards").destroy_card(card.get_child_index())
 			card = null
 			used = false
+
+
+func _on_Timer_timeout():
+	$Sprite.texture = load("res://assets/animations/Player/Normal.png")
+	$Timer.stop()
