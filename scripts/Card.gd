@@ -11,4 +11,4 @@ func _input(event):
 			card.set_child_index(get_parent().get_index())
 
 func _ready():
-	card.init(enum_types.DEFENS,3)
+	card.init(enum_types.ATTACK,3)

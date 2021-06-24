@@ -71,3 +71,11 @@ func _on_ClickArea_clicked_in_area():
 func _on_Timer_timeout():
 	$Sprite.texture = load("res://assets/animations/Player/Normal.png")
 	$Timer.stop()
+
+
+func _on_Button_pressed():
+	if $Enemy != null:
+		if $Enemy.get_current_helth() > 2:
+			self.get_damage($Enemy.get_strenght())
+		else:
+			$Enemy.get_damage(-$Enemy.get_strenght())

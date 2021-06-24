@@ -40,8 +40,18 @@ centered = false
 
 [node name="Timer" type="Timer" parent="."]
 
+[node name="Button" type="Button" parent="."]
+margin_left = 796.0
+margin_top = 505.0
+margin_right = 1005.0
+margin_bottom = 569.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="card_selected" from="Cards" to="." method="_on_Node2D_card_selected"]
 [connection signal="killed" from="Enemy" to="." method="_on_Enemy_killed"]
 [connection signal="selected" from="Enemy" to="." method="_on_Enemy_selected"]
 [connection signal="clicked_in_area" from="ClickArea" to="." method="_on_ClickArea_clicked_in_area"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
