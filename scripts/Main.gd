@@ -74,8 +74,9 @@ func _on_Timer_timeout():
 
 
 func _on_Button_pressed():
-	if $Enemy != null:
-		if $Enemy.get_current_helth() > 2:
-			self.get_damage($Enemy.get_strenght())
-		else:
-			$Enemy.get_damage(-$Enemy.get_strenght())
+	for enemy in get_tree().get_nodes_in_group("all_enemies"):
+		if enemy != null:
+			if enemy.get_current_helth() > 2:
+				self.get_damage(enemy.get_strenght())
+			else:
+				enemy.get_damage(-enemy.get_strenght())
