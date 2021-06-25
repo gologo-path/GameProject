@@ -1,8 +1,7 @@
 extends Sprite
 
 const enum_types = preload("res://scripts/TypeCardEnum.gd").TypeCard
-var card = preload("res://scripts/CardClass.gd").CardClass.new()
-
+var card
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
@@ -11,4 +10,9 @@ func _input(event):
 			card.set_child_index(get_parent().get_index())
 
 func _ready():
-	card.init(enum_types.ATTACK,3)
+	pass
+
+func set_card(card):
+	self.card = card
+	scale = Vector2(0.31,0.25)
+	self.texture = load(card.get_texture_path())

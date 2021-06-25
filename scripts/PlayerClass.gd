@@ -23,7 +23,6 @@ class PlayerClass:
 	func set_deck(deck):
 		self.deck = deck
 	
-	
 	func get_damage(damage):
 		helth -= damage
 		if helth <= 0:

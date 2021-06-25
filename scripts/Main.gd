@@ -1,31 +1,43 @@
 extends Node2D
 
-var enemy_selected = false # stub, change at enemy_id later
 var card = null
 var used = false # bool flag to save state of selected card, if true then card removed from hand and flag turned to false
 const enum_types = preload("res://scripts/TypeCardEnum.gd").TypeCard
+var CardClass = preload("res://scripts/CardClass.gd").CardClass
 
-var max_helth = 5
-var helth = max_helth
+var flag = false
+
+var cards_collection = [
+	CardClass.new(enum_types.ATTACK,2,"res://assets/священная заточка карточка.png"),
+	CardClass.new(enum_types.ATTACK,2,"res://assets/священная заточка карточка.png"),
+	CardClass.new(enum_types.ATTACK,2,"res://assets/священная заточка карточка.png"),
+	CardClass.new(enum_types.DEFENS,-2,"res://assets/подорожник.png"),
+	CardClass.new(enum_types.DEFENS,-2,"res://assets/подорожник.png"),
+	CardClass.new(enum_types.ALL,2,"res://assets/1.png"),
+	CardClass.new(enum_types.ALL_ENEMIES,2,"res://assets/3.png")
+]
+var player = preload("res://scripts/PlayerClass.gd").PlayerClass.new(10,10,cards_collection)
+var deck = preload("res://scripts/Deck.gd").DeckClass.new(cards_collection)
 
 func get_max_helth():
-	return max_helth
+	return player.get_max_helth()
 func get_current_helth():
-	return helth
+	return player.get_current_helth()
 
 func get_damage(damage):
-	helth -= damage
-	print ("geted %d damage" % damage)
-	$Sprite.texture = load("res://assets/animations/Player/Damaged.png")
-	$Timer.start()
-	if helth <= 0:
-		$Sprite.texture = load("res://assets/animations/Player/Dead.png")
-		$Timer.stop()
-		print("killed")
+	player.get_damage(damage)
+	if damage > 0:
+		$Sprite.texture = load("res://assets/animations/Player/Damaged.png")
+		$Timer.start()
 
 func _ready():
-	pass 
+	player.connect("killed",self,"_on_Player_killed")
+	
 
+func _on_Player_killed():
+	$Sprite.texture = load("res://assets/animations/Player/Dead.png")
+	$Button.disabled = true
+	
 func _on_Node2D_card_selected(card):
 	self.card = card
 
@@ -74,9 +86,16 @@ func _on_Timer_timeout():
 
 
 func _on_Button_pressed():
-	for enemy in get_tree().get_nodes_in_group("all_enemies"):
-		if enemy != null:
-			if enemy.get_current_helth() > 2:
-				self.get_damage(enemy.get_strenght())
-			else:
-				enemy.get_damage(-enemy.get_strenght())
+	if flag:
+		for enemy in get_tree().get_nodes_in_group("all_enemies"):
+			if enemy != null:
+				if enemy.get_current_helth() > 2:
+					self.get_damage(enemy.get_strenght())
+				else:
+					enemy.get_damage(-enemy.get_strenght())
+	else:
+		flag = true
+	$Cards.clear_hand()
+	$Cards.add_card(deck.get_card())
+	$Cards.add_card(deck.get_card())
+	$Cards.add_card(deck.get_card())
