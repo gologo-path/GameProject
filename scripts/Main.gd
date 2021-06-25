@@ -32,6 +32,7 @@ func get_damage(damage):
 
 func _ready():
 	player.connect("killed",self,"_on_Player_killed")
+	_on_Button_pressed()
 	
 
 func _on_Player_killed():
