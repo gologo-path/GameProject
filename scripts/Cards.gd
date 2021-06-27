@@ -17,8 +17,11 @@ func add_card(card):
 	new_card.get_child(0).set_card(card)
 
 func clear_hand():
+	var arr = []
 	for child in get_children():
+		arr.append(child.get_child(0).get_card())
 		remove_child(child)
+	return arr
 
 func _ready():
 	pass

@@ -16,3 +16,6 @@ func set_card(card):
 	self.card = card
 	scale = Vector2(0.31,0.25)
 	self.texture = load(card.get_texture_path())
+	
+func get_card():
+	return card

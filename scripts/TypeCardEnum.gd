@@ -4,3 +4,7 @@ enum TypeCard{
 	ALL,
 	ALL_ENEMIES
 }
+enum TypeDiscard{
+	SAVE,
+	BURN
+}

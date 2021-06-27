@@ -18,6 +18,7 @@ var cards_collection = [
 ]
 var player = preload("res://scripts/PlayerClass.gd").PlayerClass.new(10,10,cards_collection)
 var deck = preload("res://scripts/Deck.gd").DeckClass.new(cards_collection)
+var discard_deck = []
 
 func get_max_helth():
 	return player.get_max_helth()
@@ -52,6 +53,7 @@ func _on_Enemy_selected(index):
 		$Sprite.texture = load("res://assets/animations/Player/Attack.png")
 		$Timer.start()
 		get_node("Cards").destroy_card(card.get_child_index())
+		discard_deck.append(card)
 		card = null
 		used = false
 
@@ -77,6 +79,7 @@ func _on_ClickArea_clicked_in_area():
 		
 		if used:
 			get_node("Cards").destroy_card(card.get_child_index())
+			discard_deck.append(card)
 			card = null
 			used = false
 
@@ -87,6 +90,7 @@ func _on_Timer_timeout():
 
 
 func _on_Button_pressed():
+	card = null
 	if flag:
 		for enemy in get_tree().get_nodes_in_group("all_enemies"):
 			if enemy != null:
@@ -96,7 +100,13 @@ func _on_Button_pressed():
 					enemy.get_damage(-enemy.get_strenght())
 	else:
 		flag = true
-	$Cards.clear_hand()
-	$Cards.add_card(deck.get_card())
-	$Cards.add_card(deck.get_card())
-	$Cards.add_card(deck.get_card())
+	discard_deck.append_array($Cards.clear_hand())
+	var count = 3
+	var size = deck.size()
+	for i in range(0,min(size,count)):
+		$Cards.add_card(deck.get_card()) 
+	if size < 3:
+		deck.extend(discard_deck)
+		discard_deck.clear()
+		for i in range(0,count-size):
+			$Cards.add_card(deck.get_card())
