@@ -3,18 +3,19 @@ extends Node2D
 var card = null
 var used = false # bool flag to save state of selected card, if true then card removed from hand and flag turned to false
 const enum_types = preload("res://scripts/TypeCardEnum.gd").TypeCard
+const enum_discard = preload("res://scripts/TypeCardEnum.gd").TypeDiscard
 var CardClass = preload("res://scripts/CardClass.gd").CardClass
 
 var flag = false
 
 var cards_collection = [
-	CardClass.new(enum_types.ATTACK,2,"res://assets/священная заточка карточка.png"),
-	CardClass.new(enum_types.ATTACK,2,"res://assets/священная заточка карточка.png"),
-	CardClass.new(enum_types.ATTACK,2,"res://assets/священная заточка карточка.png"),
-	CardClass.new(enum_types.DEFENS,-2,"res://assets/подорожник.png"),
-	CardClass.new(enum_types.DEFENS,-2,"res://assets/подорожник.png"),
-	CardClass.new(enum_types.ALL,2,"res://assets/1.png"),
-	CardClass.new(enum_types.ALL_ENEMIES,2,"res://assets/3.png")
+	CardClass.new(enum_types.ATTACK,2,"res://assets/священная заточка карточка.png",enum_discard.SAVE),
+	CardClass.new(enum_types.ATTACK,2,"res://assets/священная заточка карточка.png",enum_discard.SAVE),
+	CardClass.new(enum_types.ATTACK,2,"res://assets/священная заточка карточка.png",enum_discard.SAVE),
+	CardClass.new(enum_types.DEFENS,-2,"res://assets/подорожник.png",enum_discard.SAVE),
+	CardClass.new(enum_types.DEFENS,-2,"res://assets/подорожник.png",enum_discard.SAVE),
+	CardClass.new(enum_types.ALL,2,"res://assets/1.png",enum_discard.BURN),
+	CardClass.new(enum_types.ALL_ENEMIES,2,"res://assets/3.png",enum_discard.BURN)
 ]
 var player = preload("res://scripts/PlayerClass.gd").PlayerClass.new(10,10,cards_collection)
 var deck = preload("res://scripts/Deck.gd").DeckClass.new(cards_collection)
@@ -38,6 +39,7 @@ func _ready():
 
 func _on_Player_killed():
 	$Sprite.texture = load("res://assets/animations/Player/Dead.png")
+	$Timer.stop()
 	$Button.disabled = true
 	
 func _on_Node2D_card_selected(card):
@@ -53,7 +55,8 @@ func _on_Enemy_selected(index):
 		$Sprite.texture = load("res://assets/animations/Player/Attack.png")
 		$Timer.start()
 		get_node("Cards").destroy_card(card.get_child_index())
-		discard_deck.append(card)
+		if card.get_type_discard() == enum_discard.SAVE:
+			discard_deck.append(card)
 		card = null
 		used = false
 
@@ -79,7 +82,8 @@ func _on_ClickArea_clicked_in_area():
 		
 		if used:
 			get_node("Cards").destroy_card(card.get_child_index())
-			discard_deck.append(card)
+			if card.get_type_discard() == enum_discard.SAVE:
+				discard_deck.append(card)
 			card = null
 			used = false
 
@@ -87,6 +91,8 @@ func _on_ClickArea_clicked_in_area():
 func _on_Timer_timeout():
 	$Sprite.texture = load("res://assets/animations/Player/Normal.png")
 	$Timer.stop()
+	if player.get_current_helth() <= 0:
+		_on_Player_killed()
 
 
 func _on_Button_pressed():
@@ -100,7 +106,10 @@ func _on_Button_pressed():
 					enemy.get_damage(-enemy.get_strenght())
 	else:
 		flag = true
-	discard_deck.append_array($Cards.clear_hand())
+	var prev_hand = $Cards.clear_hand()
+	for card in prev_hand:
+		if card.get_type_discard() == enum_discard.SAVE:
+			discard_deck.append(card)
 	var count = 3
 	var size = deck.size()
 	for i in range(0,min(size,count)):
